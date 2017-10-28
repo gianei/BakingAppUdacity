@@ -10,6 +10,7 @@ import com.glsebastiany.bakingapp.R
 import com.glsebastiany.bakingapp.databinding.ActivityMainBinding
 import com.glsebastiany.bakingapp.view.recipe.RecipeActivity
 import com.glsebastiany.bakingapp.view.recyclerview.RVEventHandler
+import android.support.v7.widget.DividerItemDecoration
 
 
 class MainActivity : AppCompatActivity() {
@@ -31,7 +32,16 @@ class MainActivity : AppCompatActivity() {
                 })
 
         binding.rvRecipes.adapter = adapter
-        binding.rvRecipes.layoutManager = GridLayoutManager(this, resources.getInteger(R.integer.recipes_grid_span))
+
+        val layoutManager = GridLayoutManager(this, resources.getInteger(R.integer.recipes_grid_span))
+        binding.rvRecipes.layoutManager = layoutManager
+
+        val dividerItemDecorationH = DividerItemDecoration(binding.rvRecipes.context, DividerItemDecoration.HORIZONTAL)
+        val dividerItemDecorationV = DividerItemDecoration(binding.rvRecipes.context, DividerItemDecoration.VERTICAL)
+        dividerItemDecorationH.setDrawable(resources.getDrawable(R.drawable.recycler_view_divider))
+        dividerItemDecorationV.setDrawable(resources.getDrawable(R.drawable.recycler_view_divider))
+        binding.rvRecipes.addItemDecoration(dividerItemDecorationH)
+        binding.rvRecipes.addItemDecoration(dividerItemDecorationV)
 
 
         mainActivityViewModel.getRecipes().observe(this, Observer { recipes ->

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="recipes_grid_span">1</integer>
+
+    <dimen name="small_padding">8dp</dimen>
 </resources>

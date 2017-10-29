@@ -53,6 +53,8 @@ dependencies {
     compile 'org.parceler:parceler-api:1.1.9'
     kapt 'org.parceler:parceler:1.1.9'
 
+    compile 'com.google.android.exoplayer:exoplayer:r2.5.4'
+
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

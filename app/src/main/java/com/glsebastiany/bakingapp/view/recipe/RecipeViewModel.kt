@@ -10,6 +10,14 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     var stepIndex: Int = 0
 
+    fun decreaseStepIndex(){
+        stepIndex--
+
+        if (stepIndex == 0) {
+            stepIndex = 0
+        }
+    }
+
     fun increaseStepIndex(){
         stepIndex++
 

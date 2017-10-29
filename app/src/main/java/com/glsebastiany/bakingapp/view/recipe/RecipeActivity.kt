@@ -88,6 +88,11 @@ class RecipeActivity :
         replaceRecipeDetailFragment()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        profileViewModel.decreaseStepIndex()
+    }
+
     override fun onIngredientsClick() {
         val fragment = RecipeIngredientsFragment.newInstance()
         replaceDetailFragmentAccordingToLayout(fragment)

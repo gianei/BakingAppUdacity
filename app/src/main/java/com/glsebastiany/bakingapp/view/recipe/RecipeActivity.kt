@@ -39,6 +39,14 @@ class RecipeActivity :
 
         profileViewModel = ViewModelProviders.of(this).get(RecipeViewModel::class.java)
 
+        retrieveRecipe(intent)
+
+        if (savedInstanceState == null) {
+            addStartingFragments(intent.hasExtra(EXTRA_GO_TO_INGREDIENTS))
+        }
+    }
+
+    private fun retrieveRecipe(intent: Intent) {
         if (intent.hasExtra(EXTRA_RECIPE)) {
             recipe = Parcels.unwrap<Recipe>(intent.getParcelableExtra<Parcelable>(EXTRA_RECIPE))
         } else {
@@ -47,17 +55,29 @@ class RecipeActivity :
 
         binding.obj = recipe
         profileViewModel.setRecipe(recipe)
-
-        if (savedInstanceState == null) {
-            addStartingFragments()
-        }
     }
 
-    private fun addStartingFragments() {
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+
+        retrieveRecipe(intent)
+
+        var i = 0
+        val backStackEntryCount = supportFragmentManager.backStackEntryCount
+        while ( i < backStackEntryCount) {
+            supportFragmentManager.popBackStack()
+            i++
+        }
+
+        addStartingFragments(true)
+    }
+
+    private fun addStartingFragments(goToIngredients: Boolean) {
+
         val listFragment = RecipeStepsListFragment.newInstance()
         supportFragmentManager
                 .beginTransaction()
-                .add(R.id.fragment_container_list, listFragment)
+                .replace(R.id.fragment_container_list, listFragment)
                 .commit()
 
         if (binding is ActivityRecipeDetailBindingSw600dpImpl) {
@@ -65,6 +85,13 @@ class RecipeActivity :
             supportFragmentManager
                     .beginTransaction()
                     .add(R.id.fragment_container_detail, detailFragment)
+                    .commit()
+        } else if (goToIngredients) {
+            val detailFragment = RecipeIngredientsFragment.newInstance()
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container_list, detailFragment)
+                    .addToBackStack(null)
                     .commit()
         }
     }
@@ -123,12 +150,22 @@ class RecipeActivity :
     companion object {
 
         private const val EXTRA_RECIPE = "extra_recipe"
+        private const val EXTRA_GO_TO_INGREDIENTS = "extra_go_to_ingredients"
 
         fun startActivity(context: Context, recipe: Recipe) {
             val intent = Intent(context, RecipeActivity::class.java)
             intent.putExtra(EXTRA_RECIPE, Parcels.wrap<Recipe>(recipe))
 
             context.startActivity(intent)
+        }
+
+        fun getFillInIntent(recipe: Recipe): Intent {
+            val extras = Bundle()
+            extras.putParcelable(EXTRA_RECIPE, Parcels.wrap<Recipe>(recipe))
+            extras.putBoolean(EXTRA_GO_TO_INGREDIENTS, true)
+            val fillInIntent = Intent()
+            fillInIntent.putExtras(extras)
+            return fillInIntent
         }
 
     }

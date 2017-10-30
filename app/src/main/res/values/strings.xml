@@ -7,4 +7,5 @@
     <string name="steps">Steps</string>
     <string name="start_preparation">Start Preparation</string>
     <string name="next_step">Next Step</string>
+    <string name="no_recipe_selected">No recipe selected</string>
 </resources>

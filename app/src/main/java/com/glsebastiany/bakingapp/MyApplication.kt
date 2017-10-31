@@ -8,7 +8,7 @@ import timber.log.Timber
 import timber.log.Timber.DebugTree
 
 
-class MyApplication : Application() {
+open class MyApplication : Application() {
 
     lateinit var applicationComponent: ApplicationComponent
         private set
@@ -20,10 +20,14 @@ class MyApplication : Application() {
             Timber.plant(DebugTree())
         }
 
-        applicationComponent = DaggerApplicationComponent
+        applicationComponent = buildApplicationComponent()
+
+    }
+
+    open internal fun buildApplicationComponent(): ApplicationComponent {
+        return DaggerApplicationComponent
                 .builder()
                 .applicationModule(ApplicationModule(this))
                 .build()
-
     }
 }

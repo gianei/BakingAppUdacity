@@ -10,12 +10,12 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import javax.inject.Inject
 
-class RecipesRepository @Inject
+open class RecipesRepository @Inject
 constructor(private val context: Context) {
 
-    fun getRecipes(): Single<List<Recipe>> {
+    open fun getRecipes(): Single<List<Recipe>> {
 
-        return Single.create { subscriber ->
+        return Single.create<List<Recipe>> { subscriber ->
 
             val rawJson = context.resources.openRawResource(R.raw.baking)
             val reader = BufferedReader(InputStreamReader(rawJson))

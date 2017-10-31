@@ -149,8 +149,8 @@ class RecipeActivity :
 
     companion object {
 
-        private const val EXTRA_RECIPE = "extra_recipe"
-        private const val EXTRA_GO_TO_INGREDIENTS = "extra_go_to_ingredients"
+        const val EXTRA_RECIPE = "extra_recipe"
+        const val EXTRA_GO_TO_INGREDIENTS = "extra_go_to_ingredients"
 
         fun startActivity(context: Context, recipe: Recipe) {
             val intent = Intent(context, RecipeActivity::class.java)

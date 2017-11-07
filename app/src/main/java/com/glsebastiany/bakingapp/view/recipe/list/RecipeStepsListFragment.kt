@@ -36,7 +36,7 @@ class RecipeStepsListFragment : Fragment() {
         binding.rvRecipesSteps.adapter = listAdapter
         binding.rvRecipesSteps.layoutManager = LinearLayoutManager(context)
 
-        profileViewModel = ViewModelProviders.of(activity).get(RecipeViewModel::class.java)
+        profileViewModel = ViewModelProviders.of(activity!!).get(RecipeViewModel::class.java)
 
         profileViewModel.getRecipe().observe(this, Observer { recipe ->
             listAdapter.updateItems(recipe?.steps)

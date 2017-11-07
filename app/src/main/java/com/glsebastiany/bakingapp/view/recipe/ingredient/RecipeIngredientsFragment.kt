@@ -33,7 +33,7 @@ class RecipeIngredientsFragment : Fragment() {
 
         binding.fragment = this
 
-        recipeViewModel = ViewModelProviders.of(activity).get(RecipeViewModel::class.java)
+        recipeViewModel = ViewModelProviders.of(activity!!).get(RecipeViewModel::class.java)
 
         recipeViewModel.getRecipe().observe(this, Observer { recipe ->
             listAdapter.updateItems(recipe?.ingredients)

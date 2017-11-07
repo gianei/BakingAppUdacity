@@ -4,12 +4,12 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.glsebastiany.bakingapp"
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
 //        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -33,10 +33,10 @@ dependencies {
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    compile 'com.android.support:cardview-v7:26.1.0'
-    compile 'com.android.support:recyclerview-v7:26.1.0'
-    compile 'com.android.support:support-v4:26.1.0'
+    compile 'com.android.support:appcompat-v7:27.0.0'
+    compile 'com.android.support:cardview-v7:27.0.0'
+    compile 'com.android.support:recyclerview-v7:27.0.0'
+    compile 'com.android.support:support-v4:27.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     kapt 'com.android.databinding:compiler:3.0.0'
 
@@ -47,7 +47,7 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
     compile 'com.jakewharton.timber:timber:4.5.1'
-    compile 'android.arch.lifecycle:extensions:1.0.0-rc1'
+    compile 'android.arch.lifecycle:extensions:1.0.0'
 
     compile 'com.google.code.gson:gson:2.8.2'
 
@@ -60,7 +60,7 @@ dependencies {
         exclude group: 'com.android.support'
     })
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:3.0.1'
-    androidTestCompile 'com.android.support:support-annotations:26.1.0'
+    androidTestCompile 'com.android.support:support-annotations:27.0.0'
     testCompile 'junit:junit:4.12'
 }
 

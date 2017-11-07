@@ -40,8 +40,8 @@ class RecipeStepDetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            argStepIndex = arguments.getInt(ARG_STEP_INDEX, 0)
+        arguments?.let{
+            argStepIndex = it.getInt(ARG_STEP_INDEX, 0)
         }
 
     }
@@ -50,7 +50,7 @@ class RecipeStepDetailFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipe_step_detail, container, false)
 
-        recipeViewModel = ViewModelProviders.of(activity).get(RecipeViewModel::class.java)
+        recipeViewModel = ViewModelProviders.of(activity!!).get(RecipeViewModel::class.java)
 
         binding.fragment = this
 

@@ -14,7 +14,7 @@ import com.glsebastiany.bakingapp.R
 import com.glsebastiany.bakingapp.databinding.ActivityMainBinding
 import com.glsebastiany.bakingapp.repository.RecipesRepository
 import com.glsebastiany.bakingapp.repository.model.Recipe
-import com.glsebastiany.bakingapp.util.getApplicationComponent
+import com.glsebastiany.bakingapp.util.Util
 import com.glsebastiany.bakingapp.view.recipe.RecipeActivity
 import com.glsebastiany.bakingapp.view.recyclerview.RVEventHandler
 import com.glsebastiany.bakingapp.widget.BakingAppWidgetProvider
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        getApplicationComponent().inject(this)
+        Util.getApplicationComponent(this).inject(this)
 
         mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
 

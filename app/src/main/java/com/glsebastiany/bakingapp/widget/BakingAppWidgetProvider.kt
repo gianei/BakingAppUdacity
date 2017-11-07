@@ -9,7 +9,7 @@ import android.net.Uri
 import android.widget.RemoteViews
 import com.glsebastiany.bakingapp.R
 import com.glsebastiany.bakingapp.repository.RecipesRepository
-import com.glsebastiany.bakingapp.util.getApplicationComponent
+import com.glsebastiany.bakingapp.util.Util
 import com.glsebastiany.bakingapp.view.recipe.RecipeActivity
 import javax.inject.Inject
 
@@ -19,7 +19,7 @@ class BakingAppWidgetProvider : AppWidgetProvider() {
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
 
-        context.getApplicationComponent().inject(this)
+        Util.getApplicationComponent(context).inject(this)
 
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId, recipesRepository)

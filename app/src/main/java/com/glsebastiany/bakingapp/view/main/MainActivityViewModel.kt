@@ -7,9 +7,10 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.glsebastiany.bakingapp.repository.RecipesRepository
 import com.glsebastiany.bakingapp.repository.model.Recipe
-import com.glsebastiany.bakingapp.util.getApplicationComponent
-import com.glsebastiany.bakingapp.util.rxscheduler.IoMainScheduler
+import com.glsebastiany.bakingapp.util.Util
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -19,7 +20,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     @Inject lateinit var recipesRepository: RecipesRepository
 
     init {
-        application.getApplicationComponent().inject(this)
+        Util.getApplicationComponent(application).inject(this)
     }
 
     private var subscription: Disposable? = null
@@ -34,7 +35,8 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     private fun loadRecipes() {
         subscription = recipesRepository
                 .getRecipes()
-                .compose(IoMainScheduler())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { result ->
                             recipes.value = result

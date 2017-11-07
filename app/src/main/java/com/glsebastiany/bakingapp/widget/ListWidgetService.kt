@@ -8,7 +8,7 @@ import android.widget.RemoteViewsService
 import com.glsebastiany.bakingapp.R
 import com.glsebastiany.bakingapp.repository.RecipesRepository
 import com.glsebastiany.bakingapp.repository.model.Recipe
-import com.glsebastiany.bakingapp.util.getApplicationComponent
+import com.glsebastiany.bakingapp.util.Util
 import com.glsebastiany.bakingapp.view.recipe.RecipeActivity
 import javax.inject.Inject
 
@@ -28,7 +28,7 @@ class ListRemoteViewsFactory(private var context: Context, private val recipeInd
     @Inject lateinit var recipesRepository: RecipesRepository
 
     override fun onCreate() {
-        context.getApplicationComponent().inject(this)
+        Util.getApplicationComponent(context).inject(this)
     }
 
     //called on start and when notifyAppWidgetViewDataChanged is called

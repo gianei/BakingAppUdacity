@@ -10,23 +10,23 @@ public class Step {
 
     @SerializedName("id")
     @Expose
-    int id;
+    protected int id;
 
     @SerializedName("shortDescription")
     @Expose
-    String shortDescription = null;
+    protected String shortDescription = null;
 
     @SerializedName("description")
     @Expose
-    String description = null;
+    protected String description = null;
 
     @SerializedName("videoURL")
     @Expose
-    String videoURL = null;
+    protected String videoURL = null;
 
     @SerializedName("thumbnailURL")
     @Expose
-    String thumbnailURL = null;
+    protected String thumbnailURL = null;
 
     public int getId() {
         return id;

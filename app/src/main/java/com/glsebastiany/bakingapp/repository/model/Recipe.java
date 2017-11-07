@@ -12,7 +12,7 @@ public class Recipe {
 
     @SerializedName("id")
     @Expose
-    private int id;
+    protected int id;
 
     @SerializedName("name")
     @Expose

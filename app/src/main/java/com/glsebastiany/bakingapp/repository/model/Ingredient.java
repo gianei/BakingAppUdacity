@@ -11,15 +11,15 @@ public class Ingredient {
 
     @SerializedName("quantity")
     @Expose
-    private Float quantity = null;
+    protected Float quantity = null;
 
     @SerializedName("measure")
     @Expose
-    private String measure = null;
+    protected String measure = null;
 
     @SerializedName("ingredient")
     @Expose
-    private String ingredient = null;
+    protected String ingredient = null;
 
     public Float getQuantity() {
         return quantity;

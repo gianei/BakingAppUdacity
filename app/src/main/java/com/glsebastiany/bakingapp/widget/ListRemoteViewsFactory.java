@@ -65,7 +65,7 @@ public class ListRemoteViewsFactory
 
             views.setTextViewText(R.id.tv_description, ingredient.getIngredient());
 
-            views.setOnClickFillInIntent(R.id.tv_description, RecipeActivity.Companion.getFillInIntent(recipe));
+            views.setOnClickFillInIntent(R.id.tv_description, RecipeActivity.getFillInIntent(recipe));
 
             return views;
         }

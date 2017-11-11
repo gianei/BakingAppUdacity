@@ -15,6 +15,7 @@ import com.glsebastiany.bakingapp.R;
 import com.glsebastiany.bakingapp.databinding.FragmentRecipeStepDetailBinding;
 import com.glsebastiany.bakingapp.repository.model.Step;
 import com.glsebastiany.bakingapp.view.recipe.RecipeViewModel;
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -31,21 +32,28 @@ import com.google.android.exoplayer2.util.Util;
 public class RecipeStepDetailFragment extends Fragment {
 
     private static final String ARG_STEP_INDEX = "step_index";
-
-    private OnFragmentInteractionListener fragmentListener = null;
-
-    private FragmentRecipeStepDetailBinding binding;
-
-    private RecipeViewModel recipeViewModel;
-
-    private int argStepIndex = 0;
-
+    private static final String PLAYER_POSITION = "player_position";
     SimpleExoPlayer player = null;
+    private OnFragmentInteractionListener fragmentListener = null;
+    private FragmentRecipeStepDetailBinding binding;
+    private RecipeViewModel recipeViewModel;
+    private int argStepIndex = 0;
+    private Step observedStep = null;
+    private boolean playerSet = false;
+    private long playerPosition = C.TIME_UNSET;
+
+    public static RecipeStepDetailFragment newInstance(int stepIndex) {
+        RecipeStepDetailFragment fragment = new RecipeStepDetailFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_STEP_INDEX, stepIndex);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null){
+        if (getArguments() != null) {
             argStepIndex = getArguments().getInt(ARG_STEP_INDEX, 0);
         }
 
@@ -60,18 +68,32 @@ public class RecipeStepDetailFragment extends Fragment {
 
         binding.setFragment(this);
 
+        if (savedInstanceState != null) {
+            playerPosition = savedInstanceState.getLong(PLAYER_POSITION, C.TIME_UNSET);
+        }
+
         recipeViewModel.getRecipe().observe(this, recipe -> {
             if (recipe != null && recipe.getSteps() != null) {
-                binding.setObj(recipe.getSteps().get(argStepIndex));
-                setupPlayer(recipe.getSteps().get(argStepIndex));
+                playerSet = false;
+                observedStep = recipe.getSteps().get(argStepIndex);
+                binding.setObj(observedStep);
+                setupPlayer(observedStep);
             }
         });
 
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setupPlayer(observedStep);
+
+    }
+
     private void setupPlayer(Step step) {
         if (step.getVideoURL() != null) {
+            if (playerSet) return;
             // Measures bandwidth during playback. Can be null if not required.
             DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
             AdaptiveTrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
@@ -92,20 +114,38 @@ public class RecipeStepDetailFragment extends Fragment {
             // This is the MediaSource representing the media to be played.
             ExtractorMediaSource videoSource = new ExtractorMediaSource(Uri.parse(step.getVideoURL()),
                     dataSourceFactory, extractorsFactory, null, null);
+
+            // Resume from where it stopped
+            if (playerPosition != C.TIME_UNSET) {
+                player.seekTo(playerPosition);
+            }
+
             // Prepare the player with the source.
             player.prepare(videoSource);
             player.setPlayWhenReady(true);
+
+            playerSet = true;
         } else {
             binding.player.setVisibility(View.GONE);
         }
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        player.stop();
-        player.release();
-        player = null;
+    public void onPause() {
+        super.onPause();
+        playerSet = false;
+        if (player != null) {
+            playerPosition = player.getCurrentPosition();
+            player.stop();
+            player.release();
+            player = null;
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putLong(PLAYER_POSITION, playerPosition);
+        super.onSaveInstanceState(outState);
     }
 
     public void onNextClicked(View view) {
@@ -135,14 +175,6 @@ public class RecipeStepDetailFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onNextClick();
-    }
-
-    public static RecipeStepDetailFragment newInstance(int stepIndex) {
-        RecipeStepDetailFragment fragment = new RecipeStepDetailFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_STEP_INDEX, stepIndex);
-        fragment.setArguments(args);
-        return fragment;
     }
 
 }

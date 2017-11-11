@@ -25,7 +25,7 @@ public class RecipeActivity extends AppCompatActivity implements
         RecipeStepDetailFragment.OnFragmentInteractionListener,
         RecipeIngredientsFragment.OnFragmentInteractionListener {
 
-    private static final String EXTRA_RECIPE = "extra_recipe";
+    public static final String EXTRA_RECIPE = "extra_recipe";
     private static final String EXTRA_GO_TO_INGREDIENTS = "extra_go_to_ingredients";
 
     private ActivityRecipeDetailBinding binding;

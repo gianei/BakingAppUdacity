@@ -116,11 +116,6 @@ public class MainActivityTest {
     private ViewInteraction getFirstRecipeTV() {
         return onView(
                     allOf(withId(R.id.tv_ingredients), withText("Nutella Pie"),
-                            childAtPosition(
-                                    childAtPosition(
-                                            IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class),
-                                            0),
-                                    0),
                             isDisplayed()));
     }
 }

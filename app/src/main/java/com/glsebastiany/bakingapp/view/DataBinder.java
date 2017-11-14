@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -25,20 +26,27 @@ public class DataBinder {
 
     @BindingAdapter({"viewToColor","glideImageUrl"})
     public static void setImageUrl(ImageView imageView, View viewToColor, String imageUrl) {
+        getBasicGlideBuilder(imageView, imageUrl)
+                .into(new ColoredImageViewTarget(imageView.getContext(), imageView, viewToColor));
+    }
 
+    @BindingAdapter({"glideImageUrl"})
+    public static void setImageUrl(ImageView imageView, String imageUrl) {
+        getBasicGlideBuilder(imageView, imageUrl)
+                .into(imageView);
+    }
+
+    private static RequestBuilder<Bitmap> getBasicGlideBuilder(ImageView imageView, String imageUrl) {
         if (imageUrl == null || TextUtils.isEmpty(imageUrl)) {
             imageUrl = "https://loremflickr.com/600/338/food";
         }
 
-        Context context = imageView.getContext();
-
-        Glide.with(context)
+        return Glide.with(imageView.getContext())
                 .asBitmap()
                 .load(imageUrl)
-                .apply(RequestOptions.centerCropTransform())
-                .into(new ColoredImageViewTarget(context, imageView, viewToColor));
+                .apply(RequestOptions.centerCropTransform());
     }
-    
+
 
     static class ColoredImageViewTarget extends BitmapImageViewTarget {
 
